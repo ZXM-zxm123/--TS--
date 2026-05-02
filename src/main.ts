@@ -1,5 +1,5 @@
 import { GameEngine } from './gameEngine'
-import { saveLevelRecord, getLevelRecords, formatTime, saveTheme, getTheme } from './storage'
+import { saveLevelRecord, getLevelRecords, formatTime, saveTheme, getTheme, getCurrentLevel, saveCurrentLevel, resetProgress } from './storage'
 import { LEVEL_CONFIGS } from './types'
 import type { Theme, GameState } from './types'
 
@@ -26,10 +26,12 @@ function initGame() {
 
   setupEventListeners()
   updateLevelRecords()
+  currentLevel = getCurrentLevel(LEVEL_CONFIGS.length)
 }
 
 function setupEventListeners() {
   const startBtn = document.getElementById('start-btn')
+  const resetProgressBtn = document.getElementById('reset-progress-btn')
   const pauseBtn = document.getElementById('pause-btn')
   const resumeBtn = document.getElementById('resume-btn')
   const restartBtn = document.getElementById('restart-btn')
@@ -44,6 +46,14 @@ function setupEventListeners() {
   const gameGrid = document.getElementById('game-grid')
 
   startBtn?.addEventListener('click', startGame)
+  resetProgressBtn?.addEventListener('click', () => {
+    if (confirm('确定要重置所有关卡进度吗？')) {
+      resetProgress()
+      currentLevel = 1
+      updateLevelRecords()
+      alert('进度已重置！')
+    }
+  })
   pauseBtn?.addEventListener('click', () => gameEngine?.togglePause())
   resumeBtn?.addEventListener('click', () => gameEngine?.togglePause())
   restartBtn?.addEventListener('click', restartLevel)
@@ -133,7 +143,7 @@ function setupTouchHandling() {
 }
 
 function startGame() {
-  currentLevel = 1
+  currentLevel = getCurrentLevel(LEVEL_CONFIGS.length)
   showGameScreen()
   gameEngine?.startLevel(currentLevel)
 }
@@ -149,6 +159,7 @@ function nextLevel() {
     showWinScreen()
     return
   }
+  saveCurrentLevel(currentLevel)
   showGameScreen()
   gameEngine?.startLevel(currentLevel)
 }
@@ -234,6 +245,7 @@ function handleLevelComplete(level: number, time: number, score: number) {
   if (level >= LEVEL_CONFIGS.length) {
     setTimeout(() => showWinScreen(), 500)
   } else {
+    saveCurrentLevel(level + 1)
     setTimeout(() => showResultScreen(true), 500)
   }
 }
