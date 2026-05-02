@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>彩虹连线游戏</title>
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+  <div id="app">
+    <div id="start-screen" class="screen active">
+      <h1>彩虹连线</h1>
+      <div class="theme-selector">
+        <button class="theme-btn" data-theme="fresh">清新</button>
+        <button class="theme-btn" data-theme="dark">暗夜</button>
+        <button class="theme-btn" data-theme="neon">霓虹</button>
+      </div>
+      <button id="start-btn" class="game-btn">开始游戏</button>
+      <div class="levels-info">
+        <h3>关卡记录</h3>
+        <div id="level-records"></div>
+      </div>
+    </div>
+
+    <div id="game-screen" class="screen">
+      <div class="game-header">
+        <div class="level-info">关卡 <span id="current-level">1</span></div>
+        <div class="score-info">分数: <span id="score">0</span></div>
+        <div class="combo-info">连击: <span id="combo">0</span></div>
+        <div class="time-info">时间: <span id="time">90</span>s</div>
+      </div>
+      
+      <div class="power-ups">
+        <button id="hint-btn" class="power-up-btn" title="提示">💡</button>
+        <button id="freeze-btn" class="power-up-btn" title="时间冻结">❄️</button>
+        <button id="lightning-btn" class="power-up-btn" title="闪电连线">⚡</button>
+      </div>
+
+      <div id="game-grid"></div>
+      
+      <div class="game-controls">
+        <button id="pause-btn" class="game-btn">暂停</button>
+        <button id="restart-btn" class="game-btn">重新开始</button>
+      </div>
+    </div>
+
+    <div id="pause-screen" class="screen">
+      <h2>游戏暂停</h2>
+      <button id="resume-btn" class="game-btn">继续游戏</button>
+      <button id="back-to-menu-btn" class="game-btn">返回主菜单</button>
+    </div>
+
+    <div id="result-screen" class="screen">
+      <h2 id="result-title"></h2>
+      <div id="result-score"></div>
+      <div id="result-time"></div>
+      <button id="next-level-btn" class="game-btn">下一关</button>
+      <button id="replay-level-btn" class="game-btn">重玩本关</button>
+      <button id="result-back-btn" class="game-btn">返回主菜单</button>
+    </div>
+
+    <canvas id="line-canvas"></canvas>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
