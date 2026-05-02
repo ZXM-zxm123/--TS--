@@ -1,4 +1,5 @@
 const LEVEL_RECORDS_KEY = 'rainbow_connect_level_records'
+const CURRENT_LEVEL_KEY = 'rainbow_connect_current_level'
 
 export interface LevelRecord {
   level: number
@@ -46,4 +47,22 @@ export function saveTheme(theme: string): void {
 
 export function getTheme(): string {
   return localStorage.getItem(THEME_KEY) || 'fresh'
+}
+
+export function saveCurrentLevel(level: number): void {
+  localStorage.setItem(CURRENT_LEVEL_KEY, level.toString())
+}
+
+export function getCurrentLevel(maxLevel: number): number {
+  const savedLevel = localStorage.getItem(CURRENT_LEVEL_KEY)
+  const level = savedLevel ? parseInt(savedLevel, 10) : 1
+  if (isNaN(level) || level < 1 || level > maxLevel) {
+    return 1
+  }
+  return level
+}
+
+export function resetProgress(): void {
+  localStorage.removeItem(CURRENT_LEVEL_KEY)
+  localStorage.removeItem(LEVEL_RECORDS_KEY)
 }
