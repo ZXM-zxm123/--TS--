@@ -246,7 +246,10 @@ function handleLevelComplete(level: number, time: number, score: number) {
     setTimeout(() => showWinScreen(), 500)
   } else {
     saveCurrentLevel(level + 1)
-    setTimeout(() => showResultScreen(true), 500)
+    setTimeout(() => {
+      alert(`🎉 恭喜过关！\n得分: ${score}\n用时: ${formatTime(time)}`)
+      nextLevel()
+    }, 500)
   }
 }
 
